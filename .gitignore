@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+data/
+mongodb.conf
+public/.DS_Store
+vendor/
