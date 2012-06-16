@@ -27,6 +27,7 @@ require_once 'User.php';
 $app->get('/users', function () use ($app) {
     $cursor = $app['mongo']->users->find(array(), array('_id'));
 
+    $ids = array();
     foreach($cursor as $document) {
         $ids[] = $document['_id'].'';
     }
@@ -72,8 +73,27 @@ $app->put('/users/{id}', function(Request $request, $id) use ($app)  {
     $user = new User();
     $user->bindRequest($request);
 
-    $result = $app['mongo']->users->update(array('_id' => new MongoId($id)),
-        $user->toArray(), array('upsert' => false, 'safe' => true, 'multiple' => false));
+    $fieldsToUpdate = $user->toArray();
+    if(0 == sizeof($fieldsToUpdate)) {
+        return $app->json(array('message' => 'empty body'), 400);
+    }
+
+    $violations = array();
+    foreach(array_keys($fieldsToUpdate) as $field) {
+        $violation = $app['validator']->validateProperty($user, $field);
+        if (0 !== $violation->count()) {
+            $violations[] = "User.$field:\n    {$violation[0]->getMessage()}";
+        }
+    }
+
+    if(sizeof($violations) > 0) {
+        return $app->json(array('message' => join("\n", $violations)), 406);
+    }
+
+    $result = $app['mongo']->users->update(
+        array('_id' => new MongoId($id)),
+        array('$set' => $user->toArray()),
+        array('upsert' => false, 'safe' => true, 'multiple' => false));
 
     if(!$result) {
         return $app->json(array('message' => 'error connecting to server'), 500);

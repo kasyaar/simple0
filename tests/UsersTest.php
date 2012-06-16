@@ -77,14 +77,32 @@ User.email:
 
     public function testFetchingDeadUserShould404()
     {
-        $this->request('GET', '/users/6661');
+        $this->request('GET', '/users/12345678900000');
         $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
     }
 
     public function testUpdatingDeadUserShould404()
     {
-        $this->request('PUT', '/users/6661');
+        $response = $this->request('PUT', '/users/12345678900000', array('firstName' => 'Max'));
         $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('user not found', $response->message);
+    }
+
+    public function testUpdatingWithEmptyParamsShouldTriggerError()
+    {
+        $response = $this->request('PUT', '/users/12345678900000');
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('empty body', $response->message);
+    }
+
+    public function testUpdatingWithInvalidDataShouldTriggerError()
+    {
+        $response = $this->request('PUT', '/users/12345678900000', array(
+            'firstName' => '', 'email' => 'invalidemail.com'
+        ));
+        $this->assertEquals(406, $this->client->getResponse()->getStatusCode());
+        $message = "User.email:\n    This value is not a valid email address.";
+        $this->assertEquals($message, $response->message);
     }
 
     public function testDeletingDeadUserShould404()
@@ -101,7 +119,7 @@ User.email:
             'email' => 'wonnie@baar.com'
         ));
 
-        $this->request('PUT', "/users/{$userCreated->id}", array(
+        $resp = $this->request('PUT', "/users/{$userCreated->id}", array(
             'email' => 'new@email.com'
         ));
 

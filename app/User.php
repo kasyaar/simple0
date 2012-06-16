@@ -38,7 +38,9 @@ class User {
 
     public function toArray()
     {
-        return array_filter(get_object_vars($this));
+        $arrayCopy = get_object_vars($this);
+        unset($arrayCopy['id']);
+        return array_filter($arrayCopy);
     }
 
     static public function loadValidatorMetadata(ClassMetadata $metadata)
