@@ -1,0 +1,71 @@
+body { /* add fancy paddings */
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+/*
+<div class="widget" id="users-widget">
+    <div class="widget-header">
+        <h2>User list <em>(0)</em></h2>
+        <a href="#add-user">New user</a>
+    </div>
+    <ul class="widget-listing"></ul>
+</div>
+*/
+
+.widget {
+    padding: 20px;
+    margin-bottom: 10px;
+    border-color: #EEE;
+    border-style: solid;
+    border-width: 1px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.widget-header {
+    position: relative;
+    margin-bottom: 1em;
+}
+
+.widget-header em {
+    color: #eee;
+}
+
+.widget-header a {
+    position: absolute;
+    top: 0.3em;
+    right: 0em;
+}
+
+.widget-listing {
+    margin: 0;
+}
+
+.widget-listing li {
+    list-style: none;
+    padding: 0.5em;
+    font-size: 1.4em;
+    position: relative;
+}
+
+.widget-listing a {
+    margin-left: 1em;
+}
+
+.widget-listing .icon-user {
+    position: absolute;
+    top: 0.6em;
+    left: 0.5em;
+}
+
+
+.widget-listing li a span {
+    font-weight: bold;
+}
+.widget-listing button {
+    position: absolute;
+    right: 1em;
+    display: none;
+}

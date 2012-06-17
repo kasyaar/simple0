@@ -10,7 +10,7 @@ $app = new Silex\Application();
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
 $app->get('/', function () {
-    return 'index';
+    include 'views/index.phtml';
 });
 
 $app['debug'] = true;
@@ -25,14 +25,16 @@ require_once 'User.php';
 
 // returns list of all of the users
 $app->get('/users', function () use ($app) {
-    $cursor = $app['mongo']->users->find(array(), array('_id'));
+    $cursor = $app['mongo']->users->find();
 
-    $ids = array();
+    $users = array();
     foreach($cursor as $document) {
-        $ids[] = $document['_id'].'';
+        $user = new User();
+        $user->bindDocument($document);
+        $users[] = $user;
     }
 
-    return $app->json($ids);
+    return $app->json($users);
 });
 
 // show user info

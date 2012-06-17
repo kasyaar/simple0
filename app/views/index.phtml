@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>simple0 playground</title>
+
+    <!-- Le styles -->
+    <link href="../../public/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/users.css" rel="stylesheet">
+
+    <script src="/js/jquery.js"></script>
+    <script src="/js/underscore.js"></script>
+    <script src="/js/backbone.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="span6">
+                <div class="hero-unit">
+                    <h1>Playground</h1>
+                    <p>Some tiny thing for Backbone.js, Bootstrap, Silex, MongoDb, PHP and other hipster things. Long text about how awesome it is goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id augue lectus. Absolutely useless thing, that actually you won't be reading. Donec ac lorem tortor, sed volutpat est. </p>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="widget" id="users-widget">
+                    <div class="widget-header">
+                        <h2>User list <em>(0)</em></h2>
+                        <a href="#add-user" class="btn-small btn-primary btn">New user</a>
+                    </div>
+                    <ul class="widget-listing"></ul>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <footer>
+            <p>&copy; <a href="https://github.com/nfx">https://github.com/nfx</a> 2012</p>
+        </footer>
+    </div>
+
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/users.js"></script>
+
+    <script type="text/template" id="item-template">
+        <a href="#users/<%= id %>">
+            <i class="icon-user"></i>
+            <%= firstName %> <span><%= lastName %></span>
+        </a>
+        <button class="btn btn-mini confirm-remove">remove</button>
+
+        <div class="modal fade hide">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Confirm user removal</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you really sure to remove user <%= firstName %> <%= lastName %>?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">No, I've just clicked the button</a>
+                <a href="#" class="btn btn-danger remove-user">Yes, remove this user</a>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

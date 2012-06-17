@@ -180,7 +180,7 @@ User.email:
 
     public function tearDown()
     {
-        $this->app['mongo']->users->remove();
+    //    $this->app['mongo']->users->remove();
     }
 
     /**
