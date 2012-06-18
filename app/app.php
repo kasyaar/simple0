@@ -5,9 +5,18 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 $app = new Silex\Application();
 $app->register(new Silex\Provider\ValidatorServiceProvider());
+
+
+$app->before(function (Request $request) {
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace(is_array($data) ? $data : array());
+    }
+});
 
 $app->get('/', function () {
     include 'views/index.phtml';
@@ -105,7 +114,7 @@ $app->put('/users/{id}', function(Request $request, $id) use ($app)  {
         return $app->json(array('message' => 'user not found'), 404);
     }
 
-    return $app->redirect("/users/$id");
+    return $app->json(array('success' => true));
 });
 
 // deletes user
@@ -121,7 +130,7 @@ $app->delete('/users/{id}', function($id) use ($app)  {
         return $app->json(array('message' => 'user not found'), 404);
     }
 
-    return $app->redirect('/');
+    return $app->json(array('success' => true));
 });
 
 return $app;

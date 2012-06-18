@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <title>simple0 playground</title>
 
-    <!-- Le styles -->
-    <link href="../../public/css/bootstrap.css" rel="stylesheet">
+    <!--link href="../../public/css/bootstrap.css" rel="stylesheet"-->
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/users.css" rel="stylesheet">
 
@@ -23,14 +22,8 @@
                     <p>Some tiny thing for Backbone.js, Bootstrap, Silex, MongoDb, PHP and other hipster things. Long text about how awesome it is goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id augue lectus. Absolutely useless thing, that actually you won't be reading. Donec ac lorem tortor, sed volutpat est. </p>
                 </div>
             </div>
-            <div class="span6">
-                <div class="widget" id="users-widget">
-                    <div class="widget-header">
-                        <h2>User list <em>(0)</em></h2>
-                        <a href="#add-user" class="btn-small btn-primary btn">New user</a>
-                    </div>
-                    <ul class="widget-listing"></ul>
-                </div>
+            <div class="span6" id="page-content">
+                loading...
             </div>
         </div>
         <hr>
@@ -39,11 +32,65 @@
         </footer>
     </div>
 
-    <script src="/js/bootstrap.js"></script>
-    <script src="/js/users.js"></script>
+    <div class="hide widget" id="users-new">
+        <div class="widget-header">
+            <h2>Add new user</h2>
+        </div>
+
+        <div>
+            <pre id="user-new-errors" class="hide alert alert-error"></pre>
+            <form class="form-inline">
+                <div class="control-group">
+                    <label class="control-label" for="input01">First name</label>
+                    <div class="controls">
+                        <input type="text" name="firstName" class="input-xlarge" id="input01" required placeholder="First name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input02">Last name</label>
+                    <div class="controls">
+                        <input type="text" name="lastName" class="input-xlarge" id="input02" required placeholder="Last name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="input03">Email</label>
+                    <div class="controls">
+                        <input type="email" name="email" class="input-xlarge" id="input03" required placeholder="Email">
+                    </div>
+                </div>
+            </form>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Add new user</button>
+                <button class="btn">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="widget hide" id="users-widget">
+        <div class="widget-header">
+            <h2>User list <em>(0)</em></h2>
+            <a href="#add-user" class="btn-small btn-primary btn">New user</a>
+        </div>
+        <ul class="widget-listing"></ul>
+
+        <div class="modal fade hide">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Confirm user removal</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you really sure to remove user <%= firstName %> <%= lastName %>?</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">No, I've just clicked the button</a>
+                <a href="#" class="btn btn-danger remove-user">Yes, remove this user</a>
+            </div>
+        </div>
+    </div>
 
     <script type="text/template" id="item-template">
-        <a href="#users/<%= id %>">
+        <a href="#edit/<%= id %>">
             <i class="icon-user"></i>
             <%= firstName %> <span><%= lastName %></span>
         </a>
@@ -63,5 +110,8 @@
             </div>
         </div>
     </script>
+
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/users.js?<?php echo time(); ?>"></script>
 </body>
 </html>

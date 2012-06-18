@@ -165,7 +165,14 @@ User.email:
 
         $index = $this->request('GET', '/users');
 
-        $this->assertEquals(array($user0->id, $user1->id, $user2->id), $index);
+        $idHash = array_reduce($index, function($hash, $user) {
+            $hash[$user->id] = true;
+            return $hash;
+        }, array());
+
+        $this->assertArrayHasKey($user0->id, $idHash);
+        $this->assertArrayHasKey($user1->id, $idHash);
+        $this->assertArrayHasKey($user2->id, $idHash);
     }
 
     public function createApplication()
@@ -180,7 +187,8 @@ User.email:
 
     public function tearDown()
     {
-    //    $this->app['mongo']->users->remove();
+        //uncomment if you want test data
+        //$this->app['mongo']->users->remove();
     }
 
     /**
